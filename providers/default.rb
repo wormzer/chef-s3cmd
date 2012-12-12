@@ -6,6 +6,7 @@ action :sync do
 
   base_command_options << "--config=#{::File.join(node["s3cmd"]["dir"], "etc", "s3cfg")}"
   base_command_options << "--recursive" if new_resource.recursive
+  base_command_options << "--verbose" if new_resource.verbose
   base_command_options << "--include=#{new_resource.includes.join(" ")}" if new_resource.includes && !new_resource.includes.empty?  
   base_command_options << "--exclude=#{new_resource.excludes.join(" ")}" if new_resource.excludes && !new_resource.excludes.empty?
   
