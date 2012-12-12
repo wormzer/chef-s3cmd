@@ -37,6 +37,17 @@ Installs and configures [s3cmd](https://github.com/s3tools/s3cmd).
 
 ## Usage
 
-This cookbook was created primarily to facilitate data migrations to and from
-ephemeral volumes in EC2.  Thus, only a small number of configuration settings
-have been templated out.  Pull requests are welcome!
+This cookbook was created primarily to facilitate data synchronization between
+ephemeral volumes in EC2 and S3.  Thus, only a small number of configuration
+settings have been templated out and the LWRP only contains a `sync` action.
+Pull requests are welcome!
+
+``` ruby
+s3cmd "/home/vagrant/test" do
+  source "/home/vagrant/test"
+  destination "s3://s3cmd-test"
+  aws_access_key "<AWS_ACCESS_KEY_ID>"
+  aws_secret_access_key "<AWS_SECRET_ACCESS_KEY>"
+  action :sync
+end
+```
