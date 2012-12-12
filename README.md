@@ -21,10 +21,15 @@ Installs and configures [s3cmd](https://github.com/s3tools/s3cmd).
 * `node["s3cmd"]["dir"]` - Directory to install into.
 * `node["s3cmd"]["url"]` - URL to the s3cmd archive.
 * `node["s3cmd"]["checksum"]` - Checksum of the s3cmd archive.
-* `node["s3cmd"]["access_key"]` - AWS access key.
-* `node["s3cmd"]["secret_key"]` - AWS secret key.
+* `node["s3cmd"]["access_key"]` - AWS access key. If prefixed with `$` an
+  environment lookup occurs.
+* `node["s3cmd"]["secret_key"]` - AWS secret key. If prefixed with `$` an
+  environment lookup occurs.
 * `node["s3cmd"]["use_https"]` - Flag for using HTTPS to communicate to S3.
 * `node["s3cmd"]["reduced_redundancy"]` - Flag for reduced redundancy S3.
+* `node["s3cmd"]["enable_multipart"]` - Enable multipart uploads.
+* `node["s3cmd"]["multipart_chunk_size_mb"]` - Multipart upload chunk size in
+  megabytes.
 
 ## Recipes
 

@@ -1,19 +1,15 @@
 include_recipe "yum::epel" if node["platform_family"] == "rhel"
 include_recipe "python::package"
 
-directory ::File.join(node["s3cmd"]["dir"], "etc") do
-  action :create
-end
+python_packages = value_for_platform(
+  [ "amazon", "centos" ]  => { "default" => [ "python-magic" ] },
+  "default"   => [ "python-magic" ]
+)
 
-template ::File.join(node["s3cmd"]["dir"], "etc", "s3cfg") do
-  source "s3cfg.erb"
-  mode "0644"
-  variables(
-    :access_key         => node["s3cmd"]["access_key"],
-    :secret_key         => node["s3cmd"]["secret_key"],
-    :use_https          => node["s3cmd"]["use_https"],
-    :reduced_redundancy => node["s3cmd"]["reduced_redundancy"]
-  )
+python_packages.each do |pkg|
+  package pkg do
+    action :install
+  end
 end
 
 file "/etc/profile.d/s3cmd.sh" do
@@ -50,4 +46,21 @@ remote_file "#{Chef::Config[:file_cache_path]}/s3cmd-#{node["s3cmd"]["version"]}
   checksum node["s3cmd"]["checksum"]
   notifies :run, resources(:bash => "install-s3cmd"), :immediately
   action :create_if_missing
+end
+
+directory ::File.join(node["s3cmd"]["dir"], "etc") do
+  action :create
+end
+
+template ::File.join(node["s3cmd"]["dir"], "etc", "s3cfg") do
+  source "s3cfg.erb"
+  mode "0644"
+  variables(
+    :access_key               => node["s3cmd"]["access_key"],
+    :secret_key               => node["s3cmd"]["secret_key"],
+    :use_https                => node["s3cmd"]["use_https"],
+    :reduced_redundancy       => node["s3cmd"]["reduced_redundancy"],
+    :enable_multipart         => node["s3cmd"]["enable_multipart"],
+    :multipart_chunk_size_mb  => node["s3cmd"]["multipart_chunk_size_mb"]
+  )
 end

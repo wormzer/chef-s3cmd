@@ -5,7 +5,7 @@ cloudfront_host = cloudfront.amazonaws.com
 default_mime_type = binary/octet-stream
 delete_removed = False
 dry_run = False
-enable_multipart = True
+enable_multipart = <%= @enable_multipart ? "True" : "False" %>
 encoding = UTF-8
 encrypt = False
 follow_symlinks = False
@@ -23,7 +23,7 @@ invalidate_on_cf = False
 list_md5 = False
 log_target_prefix = 
 mime_type = 
-multipart_chunk_size_mb = 15
+multipart_chunk_size_mb = <%= @multipart_chunk_size_mb %>
 preserve_attrs = True
 progress_meter = True
 proxy_host = 
