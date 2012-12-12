@@ -2,7 +2,7 @@ actions :sync
 
 attribute :source,                    :kind_of => String,   :name_attribute => true, :required => true
 attribute :destination,               :kind_of => String,   :required => true
-attribute :recursive,                 :kind_of => Boolean,  :default => false
+attribute :recursive,                 :kind_of => [ TrueClass, FalseClass ],  :default => false
 
 attribute :includes,                  :kind_of => Array,    :default => [ ]
 attribute :excludes,                  :kind_of => Array,    :default => [ ]
