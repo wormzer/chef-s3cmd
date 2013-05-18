@@ -9,6 +9,7 @@ Installs and configures [s3cmd](https://github.com/s3tools/s3cmd).
 ### Platforms
 
 * CentOS 6.3
+* Ubuntu 12.04
 
 ### Cookbooks
 

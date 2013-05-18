@@ -9,6 +9,6 @@ recipe            "s3cmd", "Installs and configures s3cmd"
   depends d
 end
 
-%w{ amazon centos }.each do |os|
+%w{ amazon centos ubuntu }.each do |os|
   supports os
 end

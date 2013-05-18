@@ -1,15 +1,8 @@
 include_recipe "yum::epel" if node["platform_family"] == "rhel"
-include_recipe "python::package"
+include_recipe "python"
 
-python_packages = value_for_platform(
-  [ "amazon", "centos" ]  => { "default" => [ "python-magic" ] },
-  "default"   => [ "python-magic" ]
-)
-
-python_packages.each do |pkg|
-  package pkg do
-    action :install
-  end
+package "python-magic" do
+  action :install
 end
 
 file "/etc/profile.d/s3cmd.sh" do
@@ -18,15 +11,11 @@ file "/etc/profile.d/s3cmd.sh" do
   action :nothing
 end
 
-ruby_block "python-path" do
-  block do
-    require "find"
-
-    duplicity_profile = resources(:file => "/etc/profile.d/s3cmd.sh")
-    duplicity_profile.content "export PYTHONPATH='#{::Find.find(node["s3cmd"]["dir"]).grep(/site-packages/).first}/'"
-  end
-  action :nothing
-  notifies :create_if_missing, resources(:file => "/etc/profile.d/s3cmd.sh"), :immediately
+remote_file "#{Chef::Config[:file_cache_path]}/s3cmd-#{node["s3cmd"]["version"]}.tar.gz" do
+  source node["s3cmd"]["url"]
+  checksum node["s3cmd"]["checksum"]
+  notifies :run, "bash[install-s3cmd]", :immediately
+  action :create_if_missing
 end
 
 bash "install-s3cmd" do
@@ -37,15 +26,19 @@ bash "install-s3cmd" do
     python setup.py install --prefix=#{node["s3cmd"]["dir"]})
   EOH
   action :nothing
-  notifies :create, resources(:ruby_block => "python-path"), :immediately
+  notifies :create, "ruby_block[python-path]", :immediately
   not_if "#{node["s3cmd"]["dir"]}/bin/s3cmd --version 2>&1 | grep #{node["s3cmd"]["version"]}"
 end
 
-remote_file "#{Chef::Config[:file_cache_path]}/s3cmd-#{node["s3cmd"]["version"]}.tar.gz" do
-  source node["s3cmd"]["url"]
-  checksum node["s3cmd"]["checksum"]
-  notifies :run, resources(:bash => "install-s3cmd"), :immediately
-  action :create_if_missing
+ruby_block "python-path" do
+  block do
+    require "find"
+
+    s3cmd_profile = resources(:file => "/etc/profile.d/s3cmd.sh")
+    s3cmd_profile.content "export PYTHONPATH='#{::Find.find(node["s3cmd"]["dir"]).grep(/site-packages/).first}/'"
+  end
+  action :nothing
+  notifies :create_if_missing, "file[/etc/profile.d/s3cmd.sh]", :immediately
 end
 
 directory ::File.join(node["s3cmd"]["dir"], "etc") do
