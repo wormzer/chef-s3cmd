@@ -30,6 +30,8 @@ Installs and configures [s3cmd](https://github.com/s3tools/s3cmd).
 * `node["s3cmd"]["enable_multipart"]` - Enable multipart uploads.
 * `node["s3cmd"]["multipart_chunk_size_mb"]` - Multipart upload chunk size in
   megabytes.
+* `node["s3cmd"]["proxy_host"]` - Proxy host.
+* `node["s3cmd"]["proxy_port"]` - Proxy port.
 
 ## Recipes
 

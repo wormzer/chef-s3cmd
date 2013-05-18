@@ -9,3 +9,5 @@ default["s3cmd"]["use_https"]               = false
 default["s3cmd"]["reduced_redundancy"]      = false
 default["s3cmd"]["enable_multipart"]        = true
 default["s3cmd"]["multipart_chunk_size_mb"] = 15
+default["s3cmd"]["proxy_host"]              = ""
+default["s3cmd"]["proxy_port"]              = 0

@@ -61,6 +61,8 @@ template ::File.join(node["s3cmd"]["dir"], "etc", "s3cfg") do
     :use_https                => node["s3cmd"]["use_https"],
     :reduced_redundancy       => node["s3cmd"]["reduced_redundancy"],
     :enable_multipart         => node["s3cmd"]["enable_multipart"],
-    :multipart_chunk_size_mb  => node["s3cmd"]["multipart_chunk_size_mb"]
+    :multipart_chunk_size_mb  => node["s3cmd"]["multipart_chunk_size_mb"],
+    :proxy_host               => node["s3cmd"]["proxy_host"],
+    :proxy_port               => node["s3cmd"]["proxy_port"]
   )
 end

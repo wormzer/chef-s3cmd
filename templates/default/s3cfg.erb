@@ -26,8 +26,8 @@ mime_type =
 multipart_chunk_size_mb = <%= @multipart_chunk_size_mb %>
 preserve_attrs = True
 progress_meter = True
-proxy_host = 
-proxy_port = 0
+proxy_host = <%= @proxy_host %>
+proxy_port = <%= @proxy_port %>
 recursive = False
 recv_chunk = 4096
 reduced_redundancy = <%= @reduced_redundancy ? "True" : "False" %>
