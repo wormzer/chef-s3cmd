@@ -15,6 +15,7 @@ Installs and configures [s3cmd](https://github.com/s3tools/s3cmd).
 
 * python
 * yum
+* yum-epel
 
 ## Attributes
 

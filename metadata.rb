@@ -6,7 +6,7 @@ description       "Installs and configures s3cmd."
 version           "0.2.0"
 recipe            "s3cmd", "Installs and configures s3cmd"
 
-%w{ python yum }.each do |d|
+%w{ python yum yum-epel}.each do |d|
   depends d
 end
 

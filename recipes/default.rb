@@ -1,4 +1,4 @@
-include_recipe "yum::epel" if node["platform_family"] == "rhel"
+include_recipe "yum-epel" if node["platform_family"] == "rhel"
 include_recipe "python"
 
 package "python-magic" do
